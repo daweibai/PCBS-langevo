@@ -9,4 +9,5 @@ In the present project, I try to reproduce the ILM by Kirby (2001). Bottleneck e
 
 
 Kirby, S. (2001). Spontaneous evolution of linguistic structure-an iterated learning model of the emergence of regularity and irregularity. IEEE Transactions on Evolutionary Computation, 5(2), 102-110.
+<p></p>
 Pinker, S., & Bloom, P. (1990). Natural language and natural selection. Behavioral and brain sciences, 13(4), 707-727.
