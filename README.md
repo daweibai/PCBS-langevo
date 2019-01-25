@@ -212,7 +212,42 @@ def iteration(n_of_iteration):
 ```
 
 
-Later on I realized that this model doesn't work. This is because the A and B rules only respectively account for suffixes and prefixes, therefore, if there's a common prefix in one column, or a common suffix in a row, no rules will be generated. I modified the code so that both A and B component can register common substrings in columns and rows, but unfortunately I can't make it work.
+Later on I realized that this model doesn't work. This is because the A and B rules only respectively account for suffixes and prefixes, therefore, if there's a common prefix in one column, or a common suffix in a row, no rules will be generated. I modified the code so that both A and B component can register common substrings in columns and rows. Major modifications have been made on the parsers and production function:
+
+Row parser (same for column parser):
+```
+def row_parser(utter):
+    global rules
+#Grammar induction for the rows. The function takes utterances and modifies the rules.
+    for b in range(5): #row
+        for a in range(5): #column
+            for a2 in np.arange(a,5): 
+                #compare two elements in the same row
+                if substr_finder(utter[b][a],utter[b][a2])[0] != '' \
+                and substr_finder(utter[b][a],utter[b][a2])[1] == '':
+                    #if find common prefix
+                    rules["B"][b][a+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
+                    rules["B"][b][a2+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
+                    #'P' is a functional character indicating it's a prefix
+                <mark>elif substr_finder(utter[b][a],utter[b][a2])[0] == '' \
+                and substr_finder(utter[b][a],utter[b][a2])[1] != '':
+                    #if find common suffix
+                    rules["B"][b][a+1] = 'S' + substr_finder(utter[b][a],utter[b][a2])[0]
+                    rules["B"][b][a2+1] = 'S' + substr_finder(utter[b][a],utter[b][a2])[0]
+                else:
+                    rules["B"][b][a+1] = ''
+                    rules["B"][b][a2+1] = ''</mark>
+```
+
+
+But unfortunately I can't make it work. Both codes are uploaded.
+
+
+
+
+- Reflection on my work
+This has been a challenging project. 
+
 
 # AE
 * What was your level in programming before starting the class (roughly)
