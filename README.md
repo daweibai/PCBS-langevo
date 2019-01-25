@@ -20,7 +20,7 @@ The ILM works like any other iterated learning paradigm: the output of one agent
 5. Then the learner becomes an adult. He produces 50 strings generated from his rule space. The production is simple: for a meaning, if the adult has rules for both meaning component, then he concatenates the rules to produce the string. If he only has one meaning component, then the other half will be a random string. If he doesn't have any rule for the meaning, then he generates a random string. Notice that the 50 produced strings don't necessarily cover all the 25 meaning spaces.
 
 For example, the first (random) production from the first adult is:
-```
+```python
 ['oywuxdoag', 'okegbwtnku', 'juodih', 'b', 'v']
 ['lobsejjofd', 'cyeziht', 'slitntbuk', 'q', 'sypcc']
 ['dhsbxun', 'fzbbfkimvx', 'vxjxqmb', 'zyzch', 'fovg']
