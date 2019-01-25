@@ -4,7 +4,12 @@ Introduced by Pinker & Bloom (1990), iterated learning is a paradigm that is use
 <p></p>
 In the present project, I try to reproduce the ILM by Kirby (2001). Bottleneck effect
 
+The model works as follows:
 
+It has four components: 
+- a meaning space: a 5x5 table, the positions of which represents meaning.
+- a signal space: an ordered linear string of characters drawn from lower-case letters. The length limit for each string is 10 characters.
+- one adult and one learner within each iteration. There's only one transmission chain, that is, one single adult agent speaks to one learner. Then the latter becomes an adult, and speaks to the next learner. 
 
 
 
