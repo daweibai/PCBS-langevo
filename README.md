@@ -19,7 +19,7 @@ The ILM works like any other iterated learning paradigm. The output of one agent
 4. The rules that the learner infers will be mapped onto two rule space of 5x5, one for the meaning component A, one for B. This isn't in Simon Kirby's original model. He used a more complex Context-Free Grammar based algorithms that I'm not capable of implementing.
 5. Then the learner becomes an adult. He produces 50 strings generated from his rule space. The production is simple: for a meaning, if the adult has rules for both meaning component, then he concatenates the rules to produce the string. If he only has one meaning component, then the other half will be a random string. If he doesn't have any rule for the meaning, then he generates a random string.
 
-For example, the first (random) production is:
+For example, the first (random) production from the first adult is:
 ```
 ['oywuxdoag', 'okegbwtnku', 'juodih', 'b', 'v']
 ['lobsejjofd', 'cyeziht', 'slitntbuk', 'q', 'sypcc']
@@ -27,9 +27,25 @@ For example, the first (random) production is:
 ['hphq', 'sxzpusa', 'g', 'fseq', 'auxjj']
 ['khnlukfbjc', 'nqfrgzcim', 'iyuas', 'mr', 'os']
 ```
+The first learner will infer, for the meaning component A:
 
+```
+['a0', '', '', '', '', '']
+['a1', '', '', 's', '', 's']
+['a2', '', '', '', '', '']
+['a3', '', '', '', '', '']
+['a4', '', '', '', '', '']
+```
+and for the meaning component B:
+```
+['b0', '', '', '', '', '']
+['b1', '', '', '', 'q', '']
+['b2', '', '', '', '', '']
+['b3', '', '', '', 'q', '']
+['b4', '', '', '', '', '']
+```
 
-
+This is because he noticed that both (a2, b1) and (a4, b1) begin with "s", and both (a3, b1) and (a3, b3) end with "q".
 # Reference
 Kirby, S. (2001). Spontaneous evolution of linguistic structure-an iterated learning model of the emergence of regularity and irregularity. IEEE Transactions on Evolutionary Computation, 5(2), 102-110.
 <p></p>
