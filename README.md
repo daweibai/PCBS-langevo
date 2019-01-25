@@ -29,7 +29,7 @@ For example, the first (random) production from the first adult is:
 ```
 The first learner will infer, for the meaning component A:
 
-```
+```python
 ['suf0', '', '', '', '', '']
 ['suf1', '', '', '', 'q', '']
 ['suf2', '', '', '', '', '']
@@ -38,7 +38,7 @@ The first learner will infer, for the meaning component A:
 ```
 
 and for the meaning component B:
-```
+```python
 ['pre0', '', '', '', '', '']
 ['pre1', '', '', 's', '', 's']
 ['pre2', '', '', '', '', '']
@@ -51,7 +51,7 @@ It's worth noting that what's called "prefix" and "suffix" here can be equaled t
 
 The code is composed of :
 - A rule space, that is a global variable that will be modfied by functions in each iteration:
-```
+```python
 rules = {
 #Initial rule space. A is for lefthand rules (prefix). B for righthand rules (suffix).
     "A":[ 
@@ -73,7 +73,7 @@ rules = {
 
 - A string generator that generates a random string:
 
-```
+```python
 def str_gen(size, chars=string.ascii_lowercase):
 #generate a random string of length between 1 and 10
     return ''.join(random.choice(chars) for x in range(size))
@@ -96,7 +96,7 @@ def empty_meaning_space():
 
 - A common substring finder that takes two strings as input, and gives a common prefix and a common suffix as output. If there's no common prefix or common suffix, then it returns two empty strings:
 
-```
+```python
 def substr_finder(s1,s2):
 #takes two strings and extract the common substrings in the beginning or at the end
     m = len(s1)
@@ -129,7 +129,7 @@ def substr_finder(s1,s2):
 
 ```
 - The first adult's random signal space, outside the functions:
-```
+```python
 first_agent = []
 for b in range(5):
     row = [] 
@@ -139,7 +139,7 @@ for b in range(5):
 ```
 
 - A parser for columns, that takes a space of utterance and modifies the column rules:
-```
+```python
 def column_parser(utter):
     global rules
 #Grammar induction for the columns. The function takes utterances and modifies the rules.
@@ -155,7 +155,7 @@ def column_parser(utter):
 
 - A parser for rows, that takes the same space of utterance and modifies the rows rules:
 
-```
+```python
 def row_parser(utter):
 #Grammar induction for the rows
     global rules
@@ -170,7 +170,7 @@ def row_parser(utter):
 ```
 
 - A production function, that takes the number of utterances (that will be defined as 50) and returns a 5x5 space of utterance. Notice that the generated strings can be longer than 10 characters, which is a bug that I haven't fixed. Also, when multiple strings are produced for the same meaning (there are 50 strings for 25 meanings, for there are necessarily meanings receiving more than one string), only the last one is kept. In Kirby's model, he kept the shortest:
-```
+```python
 def production(n_of_utter):
 #produce utterances. If there's a rule, produce as the rule says. If there isn't, generate random string
     global rules
@@ -192,7 +192,7 @@ def production(n_of_utter):
 ```
 
 - And an iteration function, that takes the number of iterations and execute all the functions above over multiple iterations, and returns the utterance of the last iteration:
-```
+```python
 def iteration(n_of_iteration):
     for i in range(n_of_iteration):
         if i == 0:
@@ -215,7 +215,7 @@ def iteration(n_of_iteration):
 Later on I realized that this model doesn't work. This is because the A and B rules only respectively account for suffixes and prefixes, therefore, if there's a common prefix in one column, or a common suffix in a row, no rules will be generated. I modified the code so that both A and B component can register common substrings in columns and rows. Major modifications have been made on the parsers and production function:
 
 Row parser (same for column parser):
-```
+```python
 def row_parser(utter):
     global rules
 #Grammar induction for the rows. The function takes utterances and modifies the rules.
