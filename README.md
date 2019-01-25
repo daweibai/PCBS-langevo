@@ -168,6 +168,47 @@ def row_parser(utter):
                     rules["B"][b2][a+1] = substr_finder(utter[b][a],utter[b2][a])[1]
 ```
 
+a production function, that takes the number of utterances (that will be defined as 50) and returns a 5x5 space of utterance:
+```
+def production(n_of_utter):
+#produce utterances. If there's a rule, produce as the rule says. If there isn't, generate random string
+    global rules
+    produc = empty_meaning_space()
+    for n in range(n_of_utter):
+        col = randint(0, 4)
+        row = randint(0, 4)
+        if rules["A"][row][col+1] != '' and rules["B"][row][col+1] != '':
+            produc[row][col] = rules["A"][row][col+1]+rules["B"][row][col+1]
+#            doesn't take the shortest one
+        if rules["A"][row][col+1] == '' and rules["B"][row][col+1] != '':
+            produc[row][col] = str_gen(randint(1, 10))+rules["B"][row][col+1]
+#            could be more than 10 characters
+        if rules["A"][row][col+1] != '' and rules["B"][row][col+1] == '':
+            produc[row][col] = rules["A"][row][col+1] + str_gen(randint(1, 10))    
+        if rules["A"][row][col+1] == '' and rules["B"][row][col+1] == '':
+            produc[row][col] = str_gen(randint(1, 10))    
+    return produc
+```
+
+an iteration function, that takes the number of iterations and execute all the functions above over multiple iterations, and returns the utterance of the last iteration:
+```
+def iteration(n_of_iteration):
+    for i in range(n_of_iteration):
+        if i == 0:
+            prod = first_agent
+            column_parser(prod) 
+            row_parser(prod) 
+        else:
+            prod = production(50)
+            column_parser(prod) 
+            row_parser(prod) 
+            
+        if i in np.arange(10,100,5):
+
+            print(rules["A"][0])    
+
+    return prod
+```
 
 
 Later on I realized that this model doesn't work. This is because the A and B rules only respectively account for suffixes and prefixes, therefore, if there's a common prefix in one column, or a common suffix in a row, no rules will be generated. I modified the code so that both A and B component can register common substrings in columns and rows, but unfortunately I can't make it work.
