@@ -3,7 +3,6 @@
 Introduced by Pinker & Bloom (1990), iterated learning is a paradigm that is used to study language transmission. Then in 2001, Simon Kirby implanted the paradigm into computer modeling. His 2001 paper is the first journal paper to present the Iterated Learning Model (ILM) in language evolution. It shows that compositionality emerges out of iterated learning. 
 <p></p>
 The present project is an attempt to reproduce a simplified version of Kirby's (2001) ILM.
-
 The model works as follows:
 
 It has four components: 
