@@ -7,7 +7,7 @@ In the present project, I try to reproduce a simplified version of Kirby's (2001
 The model works as follows:
 
 It has four components: 
-- a meaning space: a 5x5 table, the positions of which represents meaning. It has two meaning components, A and B, that create a space from (a0, b0) to (a4, b4).
+- a meaning space: a 5x5 table, the positions of which represents meaning. It has two meaning components, A and B, that create a space from (a<sub>0</sub>, b0) to (a4, b4).
 - a signal space: an ordered linear string of characters drawn from lower-case letters. The length limit for each string is 10 characters. 
 - one adult and one learner within each iteration. There's only one transmission chain, that is, one single adult agent speaks his grammar to one learner. Then the latter becomes an adult, and speaks to the next learner. 
 
