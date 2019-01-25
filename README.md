@@ -17,7 +17,7 @@ The ILM works like any other iterated learning paradigm. The output of one agent
 2. Before the learner receives the strings, he has no grammar. The first adult dosen't have a grammar either. He generates random strings to pass on to the first learner.
 3. Each learner as the capacity (equivalent to Universal Grammar) to parse the input strings and induce the grammar. He does so by extracting the common substrings of strings he hears. For instance, if he receives (a0, b0) mapped onto "fsdfr" and (a0, b1) onto "fsdptdgfmr", he will notice that the common substring "fsd" and infer the rule "fsd" means a0, when the other mea b0 and b1. Note that he can only do so if the two strings share a same sub-meaning-component. For instance, if there is a common substring between (a0, b0) and (a3, b4), then he won't infer any rule. But if the second meaning was (a0, b4), given that the two meanings share a0, a rule will be infered for a0. In my model, I simplify the meaning component A to "prefix", B to "suffix". In other words, when the agent notices a common string at the beginning or at the end of both words, he will add his rule into the corresponding A or B rule space. My model don't allow circumfixes: if there's a common string in the middle, it doesn't count, contrary to Simon Kirby's original model.
 4. The rules that the learner infers will be mapped onto two rule space of 5x5, one for the meaning component A, one for B. This isn't in Simon Kirby's original model. He used a more complex Context-Free Grammar based algorithms that I'm not capable of implementing.
-5. Then the learner becomes an adult. He produces 50 strings generated from his rule space. The production is simple: for a meaning, if the adult has rules for both meaning component, then he concatenates the rules to produce the string. If he only has one meaning component, then the other half will be a random string. If he doesn't have any rule for the meaning, then he generates a random string.
+5. Then the learner becomes an adult. He produces 50 strings generated from his rule space. The production is simple: for a meaning, if the adult has rules for both meaning component, then he concatenates the rules to produce the string. If he only has one meaning component, then the other half will be a random string. If he doesn't have any rule for the meaning, then he generates a random string. Notice that the 50 produced strings don't necessarily cover all the 25 meaning spaces.
 
 For example, the first (random) production from the first adult is:
 ```
@@ -45,7 +45,24 @@ and for the meaning component B:
 ['b4', '', '', '', '', '']
 ```
 
+# CONFUSING!!!!!!!!
 This is because he noticed that both (a2, b1) and (a4, b1) begin with "s", and both (a3, b1) and (a3, b3) end with "q".
+
+
+# AE
+* What was your level in programming before starting the class (roughly)
+
+I've followed the AT2 class, where we modeled neural networks. For all my codes, I mostly used functions like the conditional, the "for" loop. I had never defined a function before this course and my goal was "as long as it works".
+
+* What you learned while working for this class (throught the lectures and/or the project)
+
+I learned to define functions, the dictionary and functions manipulating strings.
+The project was very hard (I should have chosen something easier), especially because I spent a lot of time trying to understand the ILM and the Context-Free Grammar. For weeks I didn't even have an idea about where to begin.
+
+* If you have any suggestions to improve the class for the future
+
+
+
 # Reference
 Kirby, S. (2001). Spontaneous evolution of linguistic structure-an iterated learning model of the emergence of regularity and irregularity. IEEE Transactions on Evolutionary Computation, 5(2), 102-110.
 <p></p>
