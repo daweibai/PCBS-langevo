@@ -49,7 +49,128 @@ This is because he noticed that both (a2, b1) and (a4, b1) begin with "s", and b
 
 It's worth noting that what's called "prefix" and "suffix" here can be equaled to "semantic labels". We can imagine that the B component is the subject: pre0 = "je", pre1 = "tu", pre2 = "il", etc. And the A component could be one place predicates, e.g., suf0 = "manger", suf1 = "dormir", suf2 = "boire", etc. Therefore, the meaning pairs could be "je mange", "tu manges", etc.
 
+The code is composed of a rule space, that is a global variable that will be modfied by functions in each iteration:
+```
+rules = {
+#Initial rule space. A is for lefthand rules (prefix). B for righthand rules (suffix).
+    "A":[ 
+        ["pre0","","","","",""],
+        ["pre1","","","","",""],
+        ["pre2","","","","",""],
+        ["pre3","","","","",""],
+        ["pre4","","","","",""]
+    ],
+    "B":[ 
+        ["suf0","","","","",""],
+        ["suf1","","","","",""],
+        ["suf2","","","","",""],
+        ["suf3","","","","",""],
+        ["suf4","","","","",""]
+    ]
+}
+```
 
+a string generator that generates a random string:
+
+```
+def str_gen(size, chars=string.ascii_lowercase):
+#generate a random string of length between 1 and 10
+    return ''.join(random.choice(chars) for x in range(size))
+```
+
+an empty meaning space that all learners are equipped of before exposure to language:
+
+```
+def empty_meaning_space():
+#Generate an empty meaning space that will be the initial meaning space of every learner
+    matrix = []
+    row = []
+    for b in range(5):
+        row = [] 
+        for a in range(5):
+            row.append('')
+        matrix.append(row)
+    return matrix
+```
+
+a common substring finder that takes two strings as input, and gives a common prefix and a common suffix as output. If there's no common prefix or common suffix, then it returns two empty strings:
+
+```
+def substr_finder(s1,s2):
+#takes two strings and extract the common substrings in the beginning or at the end
+    m = len(s1)
+    n = len(s2)
+    counter = [[0]*(n+1) for x in range(m+1)]
+    longest = 0
+    common = ''
+    for i in range(m):
+        for j in range(n):
+            if s1[i] == s2[j]:
+                c = counter[i][j] + 1
+                counter[i+1][j+1] = c
+                if c > longest:
+                    common = ''
+                    longest = c
+                    common = s1[i-c+1:i+1]
+                elif c == longest:
+                    common = s1[i-c+1:i+1]
+    if common == s1[:len(common)] and common == s2[:len(common)]: 
+#        for prefix rules
+        A = common
+    else:
+        A = ''
+    if common == s1[-len(common):] and common == s2[-len(common):]:
+#        for suffix rules
+        B = common
+    else:
+        B = ''
+    return A,B
+
+```
+the first adult's random signal space, outside the functions:
+```
+first_agent = []
+for b in range(5):
+    row = [] 
+    for a in range(5):
+        row.append(str_gen(randint(1, 10)))
+    first_agent.append(row)
+```
+
+a parser for columns, that takes a space of utterance and modifies the column rules:
+```
+def column_parser(utter):
+    global rules
+#Grammar induction for the columns. The function takes utterances and modifies the rules.
+    for b in range(5): #row
+        for a in range(5): #column
+            for a2 in np.arange(a,5): 
+                #compare two elements
+                if substr_finder(utter[b][a],utter[b][a2])[0] != '' \
+                and substr_finder(utter[b][a],utter[b][a2])[1] == '':
+                    rules["A"][b][a+1] = substr_finder(utter[b][a],utter[b][a2])[0]
+                    rules["A"][b][a2+1] = substr_finder(utter[b][a],utter[b][a2])[0]
+```
+
+a parser for rows, that takes the same space of utterance and modifies the rows rules:
+
+```
+def row_parser(utter):
+#Grammar induction for the rows
+    global rules
+    for a in range(5): #row
+        for b in range(5): #column
+            for b2 in np.arange(b,5): 
+                #compare two elements
+                if substr_finder(utter[b][a],utter[b2][a])[0] == '' \
+                and substr_finder(utter[b][a],utter[b2][a])[1] != '':
+                    rules["B"][b][a+1] = substr_finder(utter[b][a],utter[b2][a])[1]
+                    rules["B"][b2][a+1] = substr_finder(utter[b][a],utter[b2][a])[1]
+```
+
+
+
+Later on I realized that this model doesn't work. This is because the A and B rules only respectively account for suffixes and prefixes, therefore, if there's a common prefix in one column, or a common suffix in a row, no rules will be generated. I modified the code so that both A and B component can register common substrings in columns and rows, but unfortunately I can't make it work.
 
 # AE
 * What was your level in programming before starting the class (roughly)
