@@ -52,12 +52,12 @@ This is because he noticed that both (a2, b1) and (a4, b1) begin with "s", and b
 # AE
 * What was your level in programming before starting the class (roughly)
 
-I've followed the AT2 class, where we modeled neural networks. For all my codes, I mostly used functions like the conditional, the "for" loop. I had never defined a function before this course and my goal was "as long as it works".
+I had no training in coding before coming to the Cogmaster. I followed the AT2 class last year, where we modeled neural networks. For all my codes, I mostly only used functions like the conditional and the "for" loop. I had never defined a function before this course. My goal was to plot figures and "as long as it works".
 
 * What you learned while working for this class (throught the lectures and/or the project)
 
-I learned to define functions, the dictionary and functions manipulating strings.
-I've never done a project as challenging as this one (I should have chosen something easier). For weeks I didn't have an idea about where to begin. I spent a lot of time trying to understand the ILM and the Context-Free Grammar. 
+I learned to define functions, the dictionary and functions manipulating strings. I also learned to plan the structure of the codes before starting. The homeworks I did in AT2 didn't demande this sort of global planning.
+I've never done a project as challenging as this one (I should have chosen something easier). For weeks I didn't have an idea about where to begin (and therefore neither did I know what to ask). I spent a lot of time trying to understand the ILM and the Context-Free Grammar. There's no code of ILM or CFG to be found on the Internet that I could understand. So I had to build the model from my understanding of the ILM, which is a great exercise.
 
 * If you have any suggestions to improve the class for the future
 
