@@ -15,8 +15,8 @@ The ILM works like any other iterated learning paradigm. The output of one agent
 
 1. Each adult (except for the first one) has an internal representation of the grammar, that is, how the meanings are mapped to the strings. He generates a set of 50 strings based on his grammar, and passes the (meaning, grammar) pairs to the learner.
 2. Before the learner receives the strings, he has no grammar. The first adult dosen't have a grammar either. He generates random strings to pass on to the first learner.
-3. Each learner as the capacity (equivalent to Universal Grammar) to parse the input strings and induce the grammar. He does so by extracting the common substrings of strings he hears. For instance, if he receives (a0, b0) mapped onto "fsdfr" and (a0, b1) onto "fsdptdgfmr", he will notice that the common substring "fsd" and infer the rule "fsd" means a0, when the other mea b0 and b1. Note that he can only do so if the two strings share a same sub-meaning-component. For instance, if there is a common substring between (a0, b0) and (a3, b4), then he won't infer any rule. But if the second meaning was (a0, b4), given that the two meanings share a0, a rule will be infered for a0. In my model, I simplify the meaning component A to "prefix", B to "suffix". In other words, when the agent notices a common string at the beginning or at the end of both words, he will add his rule into the corresponding A or B rule space. My model don't allow circumfixes: if there's a common string in the middle, it doesn't count, contrary to Simon Kirby's original model.
-4. The rules that the learner infers will be mapped onto two rule space of 5x5, one for the meaning component A, one for B. This isn't in Simon Kirby's original model. He used a more complex Context-Free Grammar based algorithms that I'm not capable of implementing.
+3. Each learner as the capacity (equivalent to Universal Grammar) to parse the input strings and induce the grammar. He does so by extracting the common substrings of strings he hears. For instance, if he receives (a0, b0) mapped onto "fsdfr" and (a0, b1) onto "fsdptdgfmr", he will notice that the common substring "fsd" and infer the rule "fsd" means a0, when the other mea b0 and b1. Note that he can only do so if the two strings share a same sub-meaning-component. For instance, if there is a common substring between (a0, b0) and (a3, b4), then he won't infer any rule. But if the second meaning was (a0, b4), given that the two meanings share a0, a rule will be infered for a0. In my model, I simplify the meaning component A to "suffix", B to "prefix". In other words, when the agent notices a common string at the beginning or at the end of both words, he will add his rule into the corresponding A or B rule space. My model don't allow circumfixes: if there's a common string in the middle, it doesn't count, contrary to Simon Kirby's original model.
+4. The rules that the learner infers will be mapped onto two rule space of 5x5, one for the meaning component A, one for B. This isn't in Simon Kirby's original model. He used a more complex Context-Free Grammar based algorithms that I'm not capable of implementing. In his model, same rules of the same meaning components are merged into a more general rule. This isn't necessary if you have a rule space: the same rules can simply be kept in their respective slot.
 5. Then the learner becomes an adult. He produces 50 strings generated from his rule space. The production is simple: for a meaning, if the adult has rules for both meaning component, then he concatenates the rules to produce the string. If he only has one meaning component, then the other half will be a random string. If he doesn't have any rule for the meaning, then he generates a random string. Notice that the 50 produced strings don't necessarily cover all the 25 meaning spaces.
 
 For example, the first (random) production from the first adult is:
@@ -30,22 +30,21 @@ For example, the first (random) production from the first adult is:
 The first learner will infer, for the meaning component A:
 
 ```
-['a0', '', '', '', '', '']
-['a1', '', '', 's', '', 's']
-['a2', '', '', '', '', '']
-['a3', '', '', '', '', '']
-['a4', '', '', '', '', '']
-```
-and for the meaning component B:
-```
-['b0', '', '', '', '', '']
-['b1', '', '', '', 'q', '']
-['b2', '', '', '', '', '']
-['b3', '', '', '', 'q', '']
-['b4', '', '', '', '', '']
+['suf0', '', '', '', '', '']
+['suf1', '', '', '', 'q', '']
+['suf2', '', '', '', '', '']
+['suf3', '', '', '', 'q', '']
+['suf4', '', '', '', '', '']
 ```
 
-# CONFUSING!!!!!!!!
+and for the meaning component B:
+```
+['pre0', '', '', '', '', '']
+['pre1', '', '', 's', '', 's']
+['pre2', '', '', '', '', '']
+['pre3', '', '', '', '', '']
+['pre4', '', '', '', '', '']
+```
 This is because he noticed that both (a2, b1) and (a4, b1) begin with "s", and both (a3, b1) and (a3, b3) end with "q".
 
 
@@ -57,7 +56,7 @@ I had no training in coding before coming to the Cogmaster. I followed the AT2 c
 * What you learned while working for this class (throught the lectures and/or the project)
 
 I learned to define functions, the dictionary and functions manipulating strings. I also learned to plan the structure of the codes before starting. The homeworks I did in AT2 didn't demande this sort of global planning.
-I've never done a project as challenging as this one (I should have chosen something easier). For weeks I didn't have an idea about where to begin (and therefore neither did I know what to ask). I spent a lot of time trying to understand the ILM and the Context-Free Grammar. There's no code of ILM or CFG to be found on the Internet that I could understand. So I had to build the model from my understanding of the ILM, which is a great exercise.
+I've never done a project as challenging as this one (I should have chosen something easier). For weeks I didn't have an idea about where to begin (and therefore neither did I know what to ask). I spent a lot of time trying to understand the ILM and the Context-Free Grammar. There's no code of ILM or CFG to be found on the Internet that I could understand. And given that I still don't understand how to implement CFG in Python, I didn't follow the algorithm sketches in Kirby's paper. Instead, I built the model from my understanding of the ILM, which is a great exercise.
 
 * If you have any suggestions to improve the class for the future
 
