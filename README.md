@@ -1,6 +1,6 @@
 # Iteratred Learning Model for language evolution
 
-Introduced by Pinker & Bloom (1990), iterated learning is a paradigm that is used to study language transmission. Then in 2001, Simon Kirby implanted the paradigm into computer modeling. His 2001 paper is the first journal paper to present the Iterated Learning Model in language evolution. It shows that compositionality emerges out of iterated learning. 
+Introduced by Pinker & Bloom (1990), iterated learning is a paradigm that is used to study language transmission. Then in 2001, Simon Kirby implanted the paradigm into computer modeling. His 2001 paper is the first journal paper to present the Iterated Learning Model (ILM) in language evolution. It shows that compositionality emerges out of iterated learning. 
 <p></p>
 In the present project, I try to reproduce the ILM by Kirby (2001). Bottleneck effect
 
@@ -9,7 +9,12 @@ The model works as follows:
 It has four components: 
 - a meaning space: a 5x5 table, the positions of which represents meaning.
 - a signal space: an ordered linear string of characters drawn from lower-case letters. The length limit for each string is 10 characters.
-- one adult and one learner within each iteration. There's only one transmission chain, that is, one single adult agent speaks to one learner. Then the latter becomes an adult, and speaks to the next learner. 
+- one adult and one learner within each iteration. There's only one transmission chain, that is, one single adult agent speaks his grammar to one learner. Then the latter becomes an adult, and speaks to the next learner. 
+
+The ILM works like any other iterated learning paradigm. The output of one agent is the input of the next. Then this process is repeated over multiple generations. To be more precise: 
+
+
+produces 50 strings generated from 
 
 
 
