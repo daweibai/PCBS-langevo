@@ -46,6 +46,7 @@ and for the meaning component B:
 ['pre4', '', '', '', '', '']
 ```
 This is because he noticed that both (a2, b1) and (a4, b1) begin with "s", and both (a3, b1) and (a3, b3) end with "q".
+
 It's worth noting that what's called "prefix" and "suffix" here can be equaled to "semantic labels". We can imagine that the B component is the subject: pre0 = "je", pre1 = "tu", pre2 = "il", etc. And the A component could be one place predicates, e.g., suf0 = "manger", suf1 = "dormir", suf2 = "boire", etc. Therefore, the meaning pairs could be "je mange", "tu manges", etc.
 
 
