@@ -266,7 +266,7 @@ Results are not as expected. After 100 iterations, the production is:
 ['cs', 'eo', 'cs', 'ss', 'vm']
 ['ce', '', 'eboiywtgpx', '', 'ke']
 ```
-the rules are, for A component:
+The rules for A component are:
 
 ```python
 ['a0', 'a1', 'a2', 'a3', 'a4']
@@ -276,7 +276,7 @@ the rules are, for A component:
 ['Pc', 'Pe', 'Pc', 'Ps', 'St']
 ['Pc', 'Pe', 'Ss', 'Pe', 'Pk']
 ```
-for B component:
+For B component:
 ```python
 ['b0', 'Ps', 'Pc', 'Pc', 'Ps', 'Pc']
 ['b1', 'Sk', 'Sk', 'St', 'Px', 'St']
@@ -285,12 +285,11 @@ for B component:
 ['b4', 'Se', 'Pe', 'Se', 'Se', 'Se']
 ```
 
-First of all, no convergence occurred, that is, no compositionality emerged after 100 generations (same after 500 generations).
-Second of all, all the rules contain only one character. Both of them are not found in Kirby's paper. 
+First of all, although both rule spaces are entirely saturated, no convergence occurred, that is, no compositionality emerged after 100 generations (same after 500 generations). We don't see any entire row or column sharing the same suffix or prefix. Second of all, all the rules contain only one character. Both of them are not found in Kirby's paper. 
 
 - Reflection on my work
 <p></p>
-This has been a challenging project. I modified some elements of the program compared to that explained in Kirby's paper. I didn't fully implement the Context-Free Grammar for rule induction and string production, although I kept some features of it (those I'm capable of implementing). I still don't understand why convergence doesn't happen. 
+This has been a challenging project. I modified some elements of the program compared to that explained in Kirby's paper. I didn't fully implement the Context-Free Grammar for rule induction and string production, although I kept some features of it (those I'm capable of implementing). I still don't understand why convergence doesn't happen. The generalization feature is missing in my model, that is, if two rules are the same, they are merged into one. But I don't know if this is the cause of the patterns not converging.
 
 
 # AE
