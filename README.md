@@ -229,14 +229,17 @@ def row_parser(utter):
                     rules["B"][b][a+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
                     rules["B"][b][a2+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
                     #'P' is a functional character indicating it's a prefix
-                <mark>elif substr_finder(utter[b][a],utter[b][a2])[0] == '' \
+                
+#######################################################added#######################################################                
+                elif substr_finder(utter[b][a],utter[b][a2])[0] == '' \
                 and substr_finder(utter[b][a],utter[b][a2])[1] != '':
                     #if find common suffix
                     rules["B"][b][a+1] = 'S' + substr_finder(utter[b][a],utter[b][a2])[0]
                     rules["B"][b][a2+1] = 'S' + substr_finder(utter[b][a],utter[b][a2])[0]
                 else:
                     rules["B"][b][a+1] = ''
-                    rules["B"][b][a2+1] = ''</mark>
+                    rules["B"][b][a2+1] = ''
+                    #######################################################added#######################################################   
 ```
 
 
