@@ -2,7 +2,9 @@
 
 Introduced by Pinker & Bloom (1990), iterated learning is a paradigm that is used to study language transmission. Then in 2001, Simon Kirby implanted the paradigm into computer modeling. His 2001 paper is the first journal paper to present the Iterated Learning Model (ILM) in language evolution. It shows that compositionality emerges out of iterated learning. 
 <p></p>
-The present project is an attempt to reproduce a simplified version of Kirby's (2001) ILM.
+The present project is an attempt to reproduce a simplified version of Kirby's (2001) ILM. No code was provided in Kirby's paper, so I'll try to build the model with my own code.
+
+
 The model works as follows:
 
 It has four components: 
@@ -285,10 +287,10 @@ for B component:
 ```
 
 First of all, no convergence occurred, that is, no compositionality emerged after 100 generations (same after 500 generations).
-Second of all, all the rules contain only one character.
+Second of all, all the rules contain only one character. Both of them are not found in Kirby's paper. 
 
 - Reflection on my work
-This has been a challenging project. 
+This has been a challenging project. I modified some elements of the program compared to that explained in Kirby's paper. I didn't fully implement the Context-Free Grammar for rule induction and string production, although I kept some features of it (those I'm capable of implementing). I still don't understand why convergence doesn't happen. 
 
 
 # AE
