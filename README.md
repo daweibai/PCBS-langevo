@@ -7,13 +7,15 @@ In the present project, I try to reproduce the ILM by Kirby (2001). Bottleneck e
 The model works as follows:
 
 It has four components: 
-- a meaning space: a 5x5 table, the positions of which represents meaning.
-- a signal space: an ordered linear string of characters drawn from lower-case letters. The length limit for each string is 10 characters.
+- a meaning space: a 5x5 table from (a0, b0) to (a4, b4), the positions of which represents meaning.
+- a signal space: an ordered linear string of characters drawn from lower-case letters. The length limit for each string is 10 characters. 
 - one adult and one learner within each iteration. There's only one transmission chain, that is, one single adult agent speaks his grammar to one learner. Then the latter becomes an adult, and speaks to the next learner. 
 
 The ILM works like any other iterated learning paradigm. The output of one agent is the input of the next. Then this process is repeated over multiple generations. To be more precise: 
 
-
+Each adult (except for the first one) has an internal representation of the grammar, that is, how the meanings are mapped to the strings.
+The learner receives
+Each agent as the capacity to parse the input strings and induce the grammar. For instance, if (a0, 
 produces 50 strings generated from 
 
 
