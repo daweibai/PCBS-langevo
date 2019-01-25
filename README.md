@@ -301,11 +301,11 @@ I had no training in coding before coming to the Cogmaster. I followed the AT2 c
 * What you learned while working for this class (throught the lectures and/or the project)
 
 I learned to define functions, the dictionary and functions manipulating strings. I also learned to plan the structure of the codes before starting. The homeworks I did in AT2 didn't demande this sort of global planning.
-I've never done a project as challenging as this one (I should have chosen something easier). For weeks I didn't have an idea about where to begin (and therefore neither did I know what to ask). I spent a lot of time trying to understand the ILM and the Context-Free Grammar. There's no code of ILM or CFG to be found on the Internet that I could understand. And given that I still don't understand how to implement CFG in Python, I didn't follow the algorithm sketches in Kirby's paper. Instead, I built the model from my understanding of the ILM, which is a great exercise.
+I've never done a project as challenging as this one (I should have chosen something easier). For weeks I didn't have an idea about where to begin (and therefore neither did I know what to ask). I spent a lot of time trying to understand the ILM and the Context-Free Grammar and how to code them. There's no code of ILM or CFG to be found on the Internet that I could understand. And given that I still don't understand how to properly implement CFG in Python, I didn't follow the algorithm sketched in Kirby's paper. Instead, I built the model from my understanding of the ILM and CFG, which is a great exercise.
 
 * If you have any suggestions to improve the class for the future
-
-
+In general I liked the format (cours magistral then atêlier).
+Maybe the beginning of the course could have been faster. Also, how github works is a bit confusing to me, e.g., what kind of platform it is, why use a terminal to commit and not upload directly on the page, why all programmers work on the platform, etc.
 
 # Reference
 Kirby, S. (2001). Spontaneous evolution of linguistic structure-an iterated learning model of the emergence of regularity and irregularity. IEEE Transactions on Evolutionary Computation, 5(2), 102-110.
