@@ -168,7 +168,7 @@ def row_parser(utter):
                     rules["B"][b2][a+1] = substr_finder(utter[b][a],utter[b2][a])[1]
 ```
 
-a production function, that takes the number of utterances (that will be defined as 50) and returns a 5x5 space of utterance:
+a production function, that takes the number of utterances (that will be defined as 50) and returns a 5x5 space of utterance. Notice that the generated strings can be longer than 10 characters, which is a bug that I haven't fixed. Also, when multiple strings are produced for the same meaning (there are 50 strings for 25 meanings, for there are necessarily meanings receiving more than one string), only the last one is kept. In Kirby's model, he kept the shortest:
 ```
 def production(n_of_utter):
 #produce utterances. If there's a rule, produce as the rule says. If there isn't, generate random string
@@ -181,16 +181,16 @@ def production(n_of_utter):
             produc[row][col] = rules["A"][row][col+1]+rules["B"][row][col+1]
 #            doesn't take the shortest one
         if rules["A"][row][col+1] == '' and rules["B"][row][col+1] != '':
-            produc[row][col] = str_gen(randint(1, 10))+rules["B"][row][col+1]
+            produc[row][col] = str_gen(randint(1, 9))+rules["B"][row][col+1]
 #            could be more than 10 characters
         if rules["A"][row][col+1] != '' and rules["B"][row][col+1] == '':
-            produc[row][col] = rules["A"][row][col+1] + str_gen(randint(1, 10))    
+            produc[row][col] = rules["A"][row][col+1] + str_gen(randint(1, 9))    
         if rules["A"][row][col+1] == '' and rules["B"][row][col+1] == '':
             produc[row][col] = str_gen(randint(1, 10))    
     return produc
 ```
 
-an iteration function, that takes the number of iterations and execute all the functions above over multiple iterations, and returns the utterance of the last iteration:
+and an iteration function, that takes the number of iterations and execute all the functions above over multiple iterations, and returns the utterance of the last iteration:
 ```
 def iteration(n_of_iteration):
     for i in range(n_of_iteration):
