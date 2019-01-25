@@ -137,7 +137,7 @@ for b in range(5):
     first_agent.append(row)
 ```
 
-- A parser for columns, that takes a space of utterance and modifies the column rules. I used functional characters "P" and "S" that are placed in the beginning of the rule. They simply indicate if the rule is about a prefix or a suffix. Therefore, subsequent functions can identify the placement of the characters. Of course they will be omitted during production:
+- A parser for columns, that takes a space of utterance and modifies the column rules. Nonterminals "P" and "S" are placed in the beginning of the rule. They simply indicate if the rule is about a prefix or a suffix. Therefore, subsequent functions can identify the placement of the characters. Of course they will be omitted during production:
 ```python
 def column_parser(utter):
 #   Grammar induction for the columns
@@ -255,10 +255,37 @@ def iteration(n_of_iteration):
             print(rules["A"][0])    
 
     return prod
+
+```
+Results are not as expected. After 100 iterations, the production is:
+```python
+['sj', 'cs', 'porzqohz', 'nyhnzor', 'co']
+['hwnsbaaup', 'lwvz', 'uibdfnhb', 'xo', 'kt']
+['rhgcxcp', 'ej', 'cj', 'xhdv', 'eo']
+['cs', 'eo', 'cs', 'ss', 'vm']
+['ce', '', 'eboiywtgpx', '', 'ke']
+```
+the rules are, for A component:
+
+```python
+['a0', 'a1', 'a2', 'a3', 'a4']
+['Sj', 'Ss', 'Pc', 'Ps', 'So']
+['Sp', 'Sk', 'Ss', 'Px', 'Pk']
+['Sp', 'Pe', 'Pc', 'Px', 'So']
+['Pc', 'Pe', 'Pc', 'Ps', 'St']
+['Pc', 'Pe', 'Ss', 'Pe', 'Pk']
+```
+for B component:
+```python
+['b0', 'Ps', 'Pc', 'Pc', 'Ps', 'Pc']
+['b1', 'Sk', 'Sk', 'St', 'Px', 'St']
+['b2', 'Sj', 'Pe', 'Sj', 'Pb', 'Pe']
+['b3', 'Ss', 'So', 'Ss', 'Ss', 'Ss']
+['b4', 'Se', 'Pe', 'Se', 'Se', 'Se']
 ```
 
-
-
+First of all, no convergence occurred, that is, no compositionality emerged after 100 generations (same after 500 generations).
+Second of all, all the rules contain only one character.
 
 - Reflection on my work
 This has been a challenging project. 
