@@ -11,7 +11,7 @@ It has four components:
 - a signal space: an ordered linear string of characters drawn from lower-case letters. The length limit for each string is 10 characters. 
 - one adult and one learner within each iteration. There's only one transmission chain, that is, one single adult agent speaks his grammar to one learner. Then the latter becomes an adult, and speaks to the next learner. 
 
-The ILM works like any other iterated learning paradigm. The output of one agent is the input of the next. Then this process is repeated over multiple generations. To be more precise: 
+The ILM works like any other iterated learning paradigm: the output of one agent is the input of the next. Then, this process is repeated over multiple generations. To be more precise: 
 
 1. Each adult (except for the first one) has an internal representation of the grammar, that is, how the meanings are mapped to the strings. He generates a set of 50 strings based on his grammar, and passes the (meaning, grammar) pairs to the learner.
 2. Before the learner receives the strings, he has no grammar. The first adult dosen't have a grammar either. He generates random strings to pass on to the first learner.
