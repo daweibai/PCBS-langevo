@@ -57,7 +57,7 @@ I've followed the AT2 class, where we modeled neural networks. For all my codes,
 * What you learned while working for this class (throught the lectures and/or the project)
 
 I learned to define functions, the dictionary and functions manipulating strings.
-The project was very hard (I should have chosen something easier), especially because I spent a lot of time trying to understand the ILM and the Context-Free Grammar. For weeks I didn't even have an idea about where to begin.
+I've never done a project as challenging as this one (I should have chosen something easier). For weeks I didn't have an idea about where to begin. I spent a lot of time trying to understand the ILM and the Context-Free Grammar. 
 
 * If you have any suggestions to improve the class for the future
 
