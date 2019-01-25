@@ -15,58 +15,58 @@ The ILM works like any other iterated learning paradigm: the output of one agent
 
 1. Each adult (except for the first one) has an internal representation of the grammar, that is, how the meanings are mapped to the strings. He generates a set of 50 strings based on his grammar, and passes the (meaning, grammar) pairs to the learner.
 2. Before the learner receives the strings, he has no grammar. The first adult dosen't have a grammar either. He generates random strings to pass on to the first learner.
-3. Each learner as the capacity (equivalent to Universal Grammar) to parse the input strings and induce the grammar. He does so by extracting the common substrings of strings he hears. For instance, if he receives (a<sub>0</sub>, b<sub>0</sub>) mapped onto "fsdfr" and (a<sub>0</sub> b<sub>1</sub>) onto "fsdptdgfmr", he will notice that the common substring "fsd" and infer the rule "fsd" means a0, when the other mea b<sub>0</sub> and b<sub>1</sub>. Note that he can only do so if the two strings share a same sub-meaning-component. For instance, if there is a common substring between (a<sub>0</sub>, b<sub>0</sub>) and (a<sub>3</sub>, b<sub>4</sub>), then he won't infer any rule. But if the second meaning was (a<sub>0</sub>, b<sub>4</sub>), given that the two meanings share a<sub>0</sub>, a rule will be infered for a0. In my model, I simplify the meaning component A to "suffix", B to "prefix". In other words, when the agent notices a common string at the beginning or at the end of both words, he will add his rule into the corresponding A or B rule space. My model don't allow circumfixes: if there's a common string in the middle, it doesn't count, contrary to Simon Kirby's original model.
+3. Each learner as the capacity (equivalent to Universal Grammar) to parse the input strings and induce the grammar. He does so by extracting the common substrings of strings he hears. For instance, if he receives (a<sub>0</sub>, b<sub>0</sub>) mapped onto "fsdfr" and (a<sub>0</sub> b<sub>1</sub>) onto "fsdptdgfmr", he will notice that the common substring "fsd" and infer the rule "fsd" means a0, when the other mea b<sub>0</sub> and b<sub>1</sub>. Note that he can only do so if the two strings share a same sub-meaning-component. For instance, if there is a common substring between (a<sub>0</sub>, b<sub>0</sub>) and (a<sub>3</sub>, b<sub>4</sub>), then he won't infer any rule. But if the second meaning was (a<sub>0</sub>, b<sub>4</sub>), given that the two meanings share a<sub>0</sub>, a rule will be infered for a0. Notice that my model don't allow circumfixes: if there's a common string in the middle, it doesn't count, contrary to Simon Kirby's original model. But it shouldn't change much the iteration evolution anyway.
 4. The rules that the learner infers will be mapped onto two rule space of 5x5, one for the meaning component A, one for B. This isn't in Simon Kirby's original model. He used a more complex Context-Free Grammar based algorithms that I'm not capable of implementing. In his model, same rules of the same meaning components are merged into a more general rule. This isn't necessary if you have a rule space: the same rules can simply be kept in their respective slot.
 5. Then the learner becomes an adult. He produces 50 strings generated from his rule space. The production is simple: for a meaning, if the adult has rules for both meaning component, then he concatenates the rules to produce the string. If he only has one meaning component, then the other half will be a random string. If he doesn't have any rule for the meaning, then he generates a random string. Notice that the 50 produced strings don't necessarily cover all the 25 meaning spaces.
 
 For example, the first (random) production from the first adult is:
 ```python
-['oywuxdoag', 'okegbwtnku', 'juodih', 'b', 'v']
-['lobsejjofd', 'cyeziht', 'slitntbuk', 'q', 'sypcc']
-['dhsbxun', 'fzbbfkimvx', 'vxjxqmb', 'zyzch', 'fovg']
-['hphq', 'sxzpusa', 'g', 'fseq', 'auxjj']
-['khnlukfbjc', 'nqfrgzcim', 'iyuas', 'mr', 'os']
+['qxnreh', 'slkdtz', 'akfg', 'iyifvtp', 'henjzf']
+['ywf', 'krb', 'jtgkil', 'qcm', 'th']
+['bwymfjx', 'wjfjmbye', 'syncwkhgp', 'lio', 'jppqbvrbke']
+['mnkzz', 'mcwtfxxpwk', 'dazd', 'ztpzocij', 'cjokz']
+['qyu', 'id', 'splg', 'tzthqmk', 'qml']
 ```
 The first learner will infer, for the meaning component A:
 
 ```python
-['suf0', '', '', '', '', '']
-['suf1', '', '', '', 'q', '']
-['suf2', '', '', '', '', '']
-['suf3', '', '', '', 'q', '']
-['suf4', '', '', '', '', '']
+['a0', 'a1', 'a2', 'a3', 'a4']
+['Pq', '', 'Sg', '', '']
+['', '', '', '', '']
+['', '', '', '', '']
+['', '', '', '', '']
+['Pq', '', 'Sg', '', '']
 ```
 
 and for the meaning component B:
 ```python
-['pre0', '', '', '', '', '']
-['pre1', '', '', 's', '', 's']
-['pre2', '', '', '', '', '']
-['pre3', '', '', '', '', '']
-['pre4', '', '', '', '', '']
+['b0', '', '', '', '', '']
+['b1', '', '', '', '', '']
+['b2', '', 'Se', '', '', 'Se']
+['b3', '', '', '', '', '']
+['b4', 'Pq', '', '', '', 'Pq']
 ```
-This is because he noticed that both (a<sub>2</sub>, b<sub>1</sub>) and (a<sub>4</sub>, b<sub>1</sub>) begin with "s", and both (a<sub>3</sub>, b<sub>1</sub>) and (a<sub>3</sub>, b<sub>3</sub>) end with "q".
-
-It's worth noting that what's called "prefix" and "suffix" here can be equaled to "semantic labels". We can imagine that the B component is the subject: pre0 = "je", pre1 = "tu", pre2 = "il", etc. And the A component could be one place predicates, e.g., suf0 = "manger", suf1 = "dormir", suf2 = "boire", etc. Therefore, the meaning pairs could be "je mange", "tu manges", etc.
+"P" and "S" means shared "prefix" and shared "suffix". The learner noticed that for instance, both (a<sub>0</sub>, b<sub>0</sub>) and (a<sub>0</sub>, b<sub>4</sub>) begin with "q", and both (a<sub>2</sub>, b<sub>2</sub>) and (a<sub>4</sub>, b<sub>2</sub>) end with "e".
 
 The code is composed of :
 - A rule space, that is a global variable that will be modfied by functions in each iteration:
 ```python
 rules = {
-#Initial rule space. A is for lefthand rules (prefix). B for righthand rules (suffix).
+#Initial rule space. A is for column rules. B for row rules.
     "A":[ 
-        ["pre0","","","","",""],
-        ["pre1","","","","",""],
-        ["pre2","","","","",""],
-        ["pre3","","","","",""],
-        ["pre4","","","","",""]
+        ["a0","a1","a2","a3","a4"],
+        ["","","","",""],
+        ["","","","",""],
+        ["","","","",""],
+        ["","","","",""],
+        ["","","","",""]
     ],
     "B":[ 
-        ["suf0","","","","",""],
-        ["suf1","","","","",""],
-        ["suf2","","","","",""],
-        ["suf3","","","","",""],
-        ["suf4","","","","",""]
+        ["b0","","","","",""],
+        ["b1","","","","",""],
+        ["b2","","","","",""],
+        ["b3","","","","",""],
+        ["b4","","","","",""]
     ]
 }
 ```
@@ -98,12 +98,14 @@ def empty_meaning_space():
 
 ```python
 def substr_finder(s1,s2):
-#takes two strings and extract the common substrings in the beginning or at the end
+#   takes two strings and extract the common substrings in the beginning or at the end
     m = len(s1)
     n = len(s2)
     counter = [[0]*(n+1) for x in range(m+1)]
     longest = 0
     common = ''
+    prefix = ''
+    suffix = ''
     for i in range(m):
         for j in range(n):
             if s1[i] == s2[j]:
@@ -117,15 +119,11 @@ def substr_finder(s1,s2):
                     common = s1[i-c+1:i+1]
     if common == s1[:len(common)] and common == s2[:len(common)]: 
 #        for prefix rules
-        A = common
-    else:
-        A = ''
+        prefix = common
     if common == s1[-len(common):] and common == s2[-len(common):]:
 #        for suffix rules
-        B = common
-    else:
-        B = ''
-    return A,B
+        suffix = common
+    return prefix,suffix
 
 ```
 - The first adult's random signal space, outside the functions:
@@ -138,55 +136,102 @@ for b in range(5):
     first_agent.append(row)
 ```
 
-- A parser for columns, that takes a space of utterance and modifies the column rules:
+- A parser for columns, that takes a space of utterance and modifies the column rules. I used functional characters "P" and "S" that are placed in the beginning of the rule. They simply indicate if the rule is about a prefix or a suffix. Therefore, subsequent functions can identify the placement of the characters. Of course they will be omitted during production:
 ```python
 def column_parser(utter):
+#   Grammar induction for the columns
     global rules
-#Grammar induction for the columns. The function takes utterances and modifies the rules.
-    for b in range(5): #row
-        for a in range(5): #column
-            for a2 in np.arange(a,5): 
-                #compare two elements
-                if substr_finder(utter[b][a],utter[b][a2])[0] != '' \
-                and substr_finder(utter[b][a],utter[b][a2])[1] == '':
-                    rules["A"][b][a+1] = substr_finder(utter[b][a],utter[b][a2])[0]
-                    rules["A"][b][a2+1] = substr_finder(utter[b][a],utter[b][a2])[0]
+    for a in range(5): #column 
+        for b in range(5): #row
+            for b2 in np.arange(b,5): 
+#               compare two elements
+                if substr_finder(utter[b][a],utter[b2][a])[0] != '' \
+                and substr_finder(utter[b][a],utter[b2][a])[1] == '':
+#                   if find common prefix
+                    rules["A"][b+1][a] = 'P' + substr_finder(utter[b][a],utter[b2][a])[0]
+                    rules["A"][b2+1][a] = 'P' + substr_finder(utter[b][a],utter[b2][a])[0]
+                if substr_finder(utter[b][a],utter[b2][a])[0] == '' \
+                and substr_finder(utter[b][a],utter[b2][a])[1] != '':
+#                   if find common suffix
+                    rules["A"][b+1][a] = 'S' + substr_finder(utter[b][a],utter[b2][a])[1]
+                    rules["A"][b2+1][a] = 'S' + substr_finder(utter[b][a],utter[b2][a])[1]
 ```
 
-- A parser for rows, that takes the same space of utterance and modifies the rows rules:
+- A similar parser for rows, that takes the same space of utterance and modifies the rows rules:
 
 ```python
 def row_parser(utter):
-#Grammar induction for the rows
+#   Grammar induction for the rows. The function takes utterances and modifies the rules.
+
     global rules
-    for a in range(5): #row
-        for b in range(5): #column
-            for b2 in np.arange(b,5): 
-                #compare two elements
-                if substr_finder(utter[b][a],utter[b2][a])[0] == '' \
-                and substr_finder(utter[b][a],utter[b2][a])[1] != '':
-                    rules["B"][b][a+1] = substr_finder(utter[b][a],utter[b2][a])[1]
-                    rules["B"][b2][a+1] = substr_finder(utter[b][a],utter[b2][a])[1]
+    for b in range(5): #row
+        for a in range(5): #column
+            for a2 in np.arange(a,5): 
+                #compare two elements in the same row
+                if substr_finder(utter[b][a],utter[b][a2])[0] != '' \
+                and substr_finder(utter[b][a],utter[b][a2])[1] == '':
+                    #if find common prefix and not common suffix
+                    rules["B"][b][a+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
+                    rules["B"][b][a2+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
+#                   then add the common prefix to the grammar
+#                   'P' is a functional character indicating it's a prefix
+                elif substr_finder(utter[b][a],utter[b][a2])[0] == '' \
+                and substr_finder(utter[b][a],utter[b][a2])[1] != '':
+#                   if find common suffix and not common prefix
+                    rules["B"][b][a+1] = 'S' + substr_finder(utter[b][a],utter[b][a2])[1]
+                    rules["B"][b][a2+1] = 'S' + substr_finder(utter[b][a],utter[b][a2])[1]
+#                   then add the common suffix to the grammar
+#                   'S' is a functional character indicating it's a suffix       
 ```
 
-- A production function, that takes the number of utterances (that will be defined as 50) and returns a 5x5 space of utterance. Notice that the generated strings can be longer than 10 characters, which is a bug that I haven't fixed. Also, when multiple strings are produced for the same meaning (there are 50 strings for 25 meanings, for there are necessarily meanings receiving more than one string), only the last one is kept. In Kirby's model, he kept the shortest:
+- A production function, that takes the number of utterances (that will be defined as 50) and returns a 5x5 space of utterance. Notice that the generated strings can be longer than 10 characters, which is a bug that I haven't fixed. Also, when multiple strings are produced for the same meaning (there are 50 strings for 25 meanings, for there are necessarily meanings receiving more than one string), only the last one is kept. In Kirby's model, he kept the shortest. Moreover, A component and B component can both be prefix or suffix rules, I can't merely merge them together. Instead, So need to put them in order depending on their categories. I arbitrarily decided that if both A and B components are sufffix rules, then update the A component, and if both are prefix rules, then update the B component:
 ```python
 def production(n_of_utter):
-#produce utterances. If there's a rule, produce as the rule says. If there isn't, generate random string
+#   produce utterances. If there's a rule, produce as the rule says. If there isn't, generate random string
     global rules
     produc = empty_meaning_space()
     for n in range(n_of_utter):
         col = randint(0, 4)
         row = randint(0, 4)
-        if rules["A"][row][col+1] != '' and rules["B"][row][col+1] != '':
-            produc[row][col] = rules["A"][row][col+1]+rules["B"][row][col+1]
-#            doesn't take the shortest one
-        if rules["A"][row][col+1] == '' and rules["B"][row][col+1] != '':
-            produc[row][col] = str_gen(randint(1, 9))+rules["B"][row][col+1]
+#        randomly choose a meaning to produce a string for
+        if rules["A"][row+1][col] != '' and rules["A"][row+1][col][0] == 'P' and\
+        rules["B"][row][col+1] != '' and rules["B"][row][col+1][0] == 'S':
+#            if A rule is for prefix, B for suffix
+            produc[row][col] = rules["A"][row+1][col][1:] +rules["B"][row][col+1][1:]
+#            merge two rules prefix + suffix to for a word
+#            doesn't take the shortest one, but the last one for that meaning
+        elif rules["A"][row+1][col] != '' and rules["A"][row+1][col][0] == 'S' \
+        and rules["B"][row][col+1] != '' and rules["B"][row][col+1][0] == 'P':
+#            if A rule is for suffix, B for prefix
+            produc[row][col] = rules["B"][row][col+1][1:] + rules["A"][row+1][col][1:]
+        elif rules["A"][row+1][col] == '' and rules["B"][row][col+1] != '' and \
+        rules["B"][row][col+1] == 'P':
+#            if A rule is empty, B rule is for prefix
 #            could be more than 10 characters
-        if rules["A"][row][col+1] != '' and rules["B"][row][col+1] == '':
-            produc[row][col] = rules["A"][row][col+1] + str_gen(randint(1, 9))    
-        if rules["A"][row][col+1] == '' and rules["B"][row][col+1] == '':
+            produc[row][col] = rules["B"][row][col+1][1:] + str_gen(randint(1, 9))
+        elif rules["A"][row+1][col] == '' and rules["B"][row][col+1] != '' and \
+        rules["B"][row][col+1] == 'S':
+#            if A rule is empty, B rule is for suffix
+            produc[row][col] = str_gen(randint(1, 9)) + rules["B"][row][col+1][1:]
+        elif rules["A"][row+1][col] != '' and rules["A"][row+1][col] == 'P' and\
+        rules["B"][row][col+1] == '':
+#            if A rule is for prefix, B rule is empty            
+            produc[row][col] = rules["A"][row+1][col][1:] + str_gen(randint(1, 9))  
+        elif rules["A"][row+1][col] != '' and rules["A"][row+1][col] == 'S' and\
+        rules["B"][row][col+1] == '':
+#            if A rule is for suffix, B rule is empty            
+            produc[row][col] = str_gen(randint(1, 9)) + rules["A"][row+1][col][1:] 
+        elif rules["A"][row+1][col] == 'S' and rules["A"][row+1][col] == 'S' and\
+        rules["B"][row][col+1] == '':
+#            if A and Brule are for suffix            
+            produc[row][col] = rules["A"][row+1][col][1:]         
+        elif rules["A"][row+1][col] == 'P' and rules["A"][row+1][col] == 'P' and\
+        rules["B"][row][col+1] == '':
+#            if A and Brule are for prefix            
+            produc[row][col] = rules["B"][row][col+1][1:]    
+        else :
+#            if both rules are empty, generate a random string
+#            should I do this for the latter two cases?
             produc[row][col] = str_gen(randint(1, 10))    
     return produc
 ```
@@ -212,41 +257,6 @@ def iteration(n_of_iteration):
 ```
 
 
-Later on I realized that this model doesn't work. This is because the A and B rules only respectively account for suffixes and prefixes, therefore, if there's a common prefix in one column, or a common suffix in a row, no rules will be generated. I modified the code so that both A and B component can register common substrings in columns and rows. Major modifications have been made on the parsers and production function:
-
-Row parser (same for column parser):
-```python
-def row_parser(utter):
-    global rules
-#Grammar induction for the rows. The function takes utterances and modifies the rules.
-    for b in range(5): #row
-        for a in range(5): #column
-            for a2 in np.arange(a,5): 
-                #compare two elements in the same row
-                if substr_finder(utter[b][a],utter[b][a2])[0] != '' \
-                and substr_finder(utter[b][a],utter[b][a2])[1] == '':
-                    #if find common prefix
-                    rules["B"][b][a+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
-                    rules["B"][b][a2+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
-                    #'P' is a functional character indicating it's a prefix
-                
-##################################################added##################################################                
-                elif substr_finder(utter[b][a],utter[b][a2])[0] == '' \
-                and substr_finder(utter[b][a],utter[b][a2])[1] != '':
-                    #if find common suffix
-                    rules["B"][b][a+1] = 'S' + substr_finder(utter[b][a],utter[b][a2])[0]
-                    rules["B"][b][a2+1] = 'S' + substr_finder(utter[b][a],utter[b][a2])[0]
-                else:
-                    rules["B"][b][a+1] = ''
-                    rules["B"][b][a2+1] = ''
-             
-##################################################added##################################################
-```
-
-
-But unfortunately I can't make it work. Both codes are uploaded.
-
-
 
 
 - Reflection on my work
@@ -256,7 +266,7 @@ This has been a challenging project.
 # AE
 * What was your level in programming before starting the class (roughly)
 
-I had no training in coding before coming to the Cogmaster. I followed the AT2 class last year, where we modeled neural networks. For all my codes, I mostly only used functions like the conditional and the "for" loop. I had never defined a function before this course. My goal was to plot figures and "as long as it works".
+I had no training in coding before coming to the Cogmaster. I followed the AT2 course last year, which is an introductory course to computational neuroscience. For all my codes, I mostly only used functions like the conditional and the "for" loop. I had never defined a function before this course. My goal was to plot figures and "as long as it works".
 
 * What you learned while working for this class (throught the lectures and/or the project)
 
