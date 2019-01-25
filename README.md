@@ -81,7 +81,7 @@ def str_gen(size, chars=string.ascii_lowercase):
 
 - An empty meaning space that all learners are equipped of before exposure to language:
 
-```
+```python
 def empty_meaning_space():
 #Generate an empty meaning space that will be the initial meaning space of every learner
     matrix = []
