@@ -49,7 +49,8 @@ This is because he noticed that both (a2, b1) and (a4, b1) begin with "s", and b
 
 It's worth noting that what's called "prefix" and "suffix" here can be equaled to "semantic labels". We can imagine that the B component is the subject: pre0 = "je", pre1 = "tu", pre2 = "il", etc. And the A component could be one place predicates, e.g., suf0 = "manger", suf1 = "dormir", suf2 = "boire", etc. Therefore, the meaning pairs could be "je mange", "tu manges", etc.
 
-The code is composed of a rule space, that is a global variable that will be modfied by functions in each iteration:
+The code is composed of :
+- A rule space, that is a global variable that will be modfied by functions in each iteration:
 ```
 rules = {
 #Initial rule space. A is for lefthand rules (prefix). B for righthand rules (suffix).
@@ -70,7 +71,7 @@ rules = {
 }
 ```
 
-a string generator that generates a random string:
+- A string generator that generates a random string:
 
 ```
 def str_gen(size, chars=string.ascii_lowercase):
@@ -78,7 +79,7 @@ def str_gen(size, chars=string.ascii_lowercase):
     return ''.join(random.choice(chars) for x in range(size))
 ```
 
-an empty meaning space that all learners are equipped of before exposure to language:
+- An empty meaning space that all learners are equipped of before exposure to language:
 
 ```
 def empty_meaning_space():
@@ -93,7 +94,7 @@ def empty_meaning_space():
     return matrix
 ```
 
-a common substring finder that takes two strings as input, and gives a common prefix and a common suffix as output. If there's no common prefix or common suffix, then it returns two empty strings:
+- A common substring finder that takes two strings as input, and gives a common prefix and a common suffix as output. If there's no common prefix or common suffix, then it returns two empty strings:
 
 ```
 def substr_finder(s1,s2):
@@ -127,7 +128,7 @@ def substr_finder(s1,s2):
     return A,B
 
 ```
-the first adult's random signal space, outside the functions:
+- The first adult's random signal space, outside the functions:
 ```
 first_agent = []
 for b in range(5):
@@ -137,7 +138,7 @@ for b in range(5):
     first_agent.append(row)
 ```
 
-a parser for columns, that takes a space of utterance and modifies the column rules:
+- A parser for columns, that takes a space of utterance and modifies the column rules:
 ```
 def column_parser(utter):
     global rules
@@ -152,7 +153,7 @@ def column_parser(utter):
                     rules["A"][b][a2+1] = substr_finder(utter[b][a],utter[b][a2])[0]
 ```
 
-a parser for rows, that takes the same space of utterance and modifies the rows rules:
+- A parser for rows, that takes the same space of utterance and modifies the rows rules:
 
 ```
 def row_parser(utter):
@@ -168,7 +169,7 @@ def row_parser(utter):
                     rules["B"][b2][a+1] = substr_finder(utter[b][a],utter[b2][a])[1]
 ```
 
-a production function, that takes the number of utterances (that will be defined as 50) and returns a 5x5 space of utterance. Notice that the generated strings can be longer than 10 characters, which is a bug that I haven't fixed. Also, when multiple strings are produced for the same meaning (there are 50 strings for 25 meanings, for there are necessarily meanings receiving more than one string), only the last one is kept. In Kirby's model, he kept the shortest:
+- A production function, that takes the number of utterances (that will be defined as 50) and returns a 5x5 space of utterance. Notice that the generated strings can be longer than 10 characters, which is a bug that I haven't fixed. Also, when multiple strings are produced for the same meaning (there are 50 strings for 25 meanings, for there are necessarily meanings receiving more than one string), only the last one is kept. In Kirby's model, he kept the shortest:
 ```
 def production(n_of_utter):
 #produce utterances. If there's a rule, produce as the rule says. If there isn't, generate random string
@@ -190,7 +191,7 @@ def production(n_of_utter):
     return produc
 ```
 
-and an iteration function, that takes the number of iterations and execute all the functions above over multiple iterations, and returns the utterance of the last iteration:
+- And an iteration function, that takes the number of iterations and execute all the functions above over multiple iterations, and returns the utterance of the last iteration:
 ```
 def iteration(n_of_iteration):
     for i in range(n_of_iteration):
