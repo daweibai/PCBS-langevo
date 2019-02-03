@@ -12,8 +12,11 @@ from random import randint
 import string
 import numpy as np
 
+n_of_iterations = 100
+#Number of iterations wanted
+
 rules = {
-#Initial rule space. A is for lefthand rules (prefix). B for righthand rules (suffix).
+#Initial rule spaces. A is for lefthand rules (prefix). B for righthand rules (suffix).
     "A":[ 
         ["a0","a1","a2","a3","a4"],
         ["","","","",""],
@@ -32,12 +35,9 @@ rules = {
 }
 
 
-
 def str_gen(size, chars=string.ascii_lowercase):
-#generate a random string of length between 1 and 10 defined later
+#Generate a random string of length between 1 and 10 defined later
     return ''.join(random.choice(chars) for x in range(size))
-
-
 
 
 def empty_meaning_space():
@@ -79,11 +79,9 @@ def substr_finder(s1,s2):
 #        for suffix rules
         suffix = common
     return prefix,suffix
-
 #Notice that my rules don't allow circumfixes. if there's a common string in th
 #e middle, and a shorter common string in the beginning or in the end, it doesn
 #'t count
-
 
 
 #first agent
@@ -102,10 +100,10 @@ def row_parser(utter):
     for b in range(5): #row
         for a in range(5): #column
             for a2 in np.arange(a,5): 
-                #compare two elements in the same row
+#               compare two elements in the same row
                 if substr_finder(utter[b][a],utter[b][a2])[0] != '' \
                 and substr_finder(utter[b][a],utter[b][a2])[1] == '':
-                    #if find common prefix and not common suffix
+#                   if find common prefix and not common suffix
                     rules["B"][b][a+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
                     rules["B"][b][a2+1] = 'P' + substr_finder(utter[b][a],utter[b][a2])[0]
 #                   then add the common prefix to the grammar
@@ -145,45 +143,45 @@ def production(n_of_utter):
     for n in range(n_of_utter):
         col = randint(0, 4)
         row = randint(0, 4)
-#        randomly choose a meaning to produce a string for
+#       randomly choose a meaning to produce a string for
         if rules["A"][row+1][col] != '' and rules["A"][row+1][col][0] == 'P' and\
         rules["B"][row][col+1] != '' and rules["B"][row][col+1][0] == 'S':
-#            if A rule is for prefix, B for suffix
+#           if A rule is for prefix, B for suffix
             produc[row][col] = rules["A"][row+1][col][1:] +rules["B"][row][col+1][1:]
-#            merge two rules prefix + suffix to for a word
-#            doesn't take the shortest one, but the last one for that meaning
+#           merge two rules prefix + suffix to for a word
+#           doesn't take the shortest one, but the last one for that meaning
         elif rules["A"][row+1][col] != '' and rules["A"][row+1][col][0] == 'S' \
         and rules["B"][row][col+1] != '' and rules["B"][row][col+1][0] == 'P':
-#            if A rule is for suffix, B for prefix
+#           if A rule is for suffix, B for prefix
             produc[row][col] = rules["B"][row][col+1][1:] + rules["A"][row+1][col][1:]
         elif rules["A"][row+1][col] == '' and rules["B"][row][col+1] != '' and \
         rules["B"][row][col+1] == 'P':
-#            if A rule is empty, B rule is for prefix
-#            could be more than 10 characters
+#           if A rule is empty, B rule is for prefix
+#           could be more than 10 characters
             produc[row][col] = rules["B"][row][col+1][1:] + str_gen(randint(1, 9))
         elif rules["A"][row+1][col] == '' and rules["B"][row][col+1] != '' and \
         rules["B"][row][col+1] == 'S':
-#            if A rule is empty, B rule is for suffix
+#           if A rule is empty, B rule is for suffix
             produc[row][col] = str_gen(randint(1, 9)) + rules["B"][row][col+1][1:]
         elif rules["A"][row+1][col] != '' and rules["A"][row+1][col] == 'P' and\
         rules["B"][row][col+1] == '':
-#            if A rule is for prefix, B rule is empty            
+#           if A rule is for prefix, B rule is empty            
             produc[row][col] = rules["A"][row+1][col][1:] + str_gen(randint(1, 9))  
         elif rules["A"][row+1][col] != '' and rules["A"][row+1][col] == 'S' and\
         rules["B"][row][col+1] == '':
-#            if A rule is for suffix, B rule is empty            
+#           if A rule is for suffix, B rule is empty            
             produc[row][col] = str_gen(randint(1, 9)) + rules["A"][row+1][col][1:] 
         elif rules["A"][row+1][col] == 'S' and rules["A"][row+1][col] == 'S' and\
         rules["B"][row][col+1] == '':
-#            if A and Brule are for suffix            
+#           if A and Brule are for suffix            
             produc[row][col] = rules["A"][row+1][col][1:]         
         elif rules["A"][row+1][col] == 'P' and rules["A"][row+1][col] == 'P' and\
         rules["B"][row][col+1] == '':
-#            if A and Brule are for prefix            
+#           if A and Brule are for prefix            
             produc[row][col] = rules["B"][row][col+1][1:]    
         else :
-#            if both rules are empty, generate a random string
-#            should I do this for the latter two cases?
+#           if both rules are empty, generate a random string
+#           should I do this for the latter two cases?
             produc[row][col] = str_gen(randint(1, 10))    
     return produc
             
@@ -198,25 +196,28 @@ def iteration(n_of_iteration):
             prod = production(50)
             column_parser(prod) 
             row_parser(prod) 
-            
+    for i in np.arange(10,10,100):
+        for j in range (5):    
+            print(prod[j])        
              
 
     return prod
 
-        
 
-        
-i = iteration(1)
+i = iteration(n_of_iterations)
 
+print('Production after', n_of_iterations, "iterations:")
 for j in range (5):  
     print(i[j])
 
 print('')
+
+print('A rules:')
 for j in range (6):
     print(rules["A"][j])
+
 print('')
+
+print('B rules:')
 for j in range (5):    
     print(rules["B"][j])
-
-
-
