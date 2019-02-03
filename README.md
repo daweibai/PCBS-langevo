@@ -258,7 +258,7 @@ def iteration(n_of_iteration):
     return prod
 
 ```
-Results are not as expected. After 100 iterations, the production is:
+Results are not as expected. After 100 iterations, the utterance is:
 ```python
 ['sj', 'cs', 'porzqohz', 'nyhnzor', 'co']
 ['hwnsbaaup', 'lwvz', 'uibdfnhb', 'xo', 'kt']
@@ -285,11 +285,11 @@ For B component:
 ['b4', 'Se', 'Pe', 'Se', 'Se', 'Se']
 ```
 
-First of all, although both rule spaces are entirely saturated, no convergence occurred, that is, no compositionality emerged after 100 generations (same after 500 generations). We don't see any entire row or column sharing the same suffix or prefix. Second of all, all the rules contain only one character. Both of them are not found in Kirby's paper. 
+First of all, although both rule spaces are entirely saturated, no convergence occurred: no compositionality emerged after 100 generations (same after 500 generations). In other words, we don't see any entire row or column sharing the same suffix or prefix. Second of all, all the rules contain only one character. From time to time, a rule containing two characters is generated (in the other runs I did). Both of them are not found in Kirby's paper. 
 
 - Reflection on my work
 <p></p>
-This has been a challenging project. I modified some elements of the program compared to that explained in Kirby's paper. I didn't fully implement the Context-Free Grammar for rule induction and string production, although I kept some features of it (those I'm capable of implementing). I still don't understand why convergence doesn't happen. The generalization feature is missing in my model, that is, if two rules are the same, they are merged into one. But I don't know if this is the cause of the patterns not converging.
+This has been a challenging project. I modified some elements of the program compared to that explained in Kirby's paper. I didn't fully implement the Context-Free Grammar for rule induction and string production, although I kept some features of it (those I'm capable of implementing). One reason for that is the rule spaces are not updated: once a rule is discovered, it will stay there forever. This is also why most of the rules contain only one character. The generalization feature is missing in my model, that is, if two rules are the same, they are merged into one. But this shouldn't be a cause of the patterns not converging.
 
 
 # AE
@@ -300,7 +300,7 @@ I had no training in coding before coming to the Cogmaster. I followed the AT2 c
 * What you learned while working for this class (throught the lectures and/or the project)
 
 I learned to define functions, the dictionary and functions manipulating strings. I also learned to plan the structure of the codes before starting. The homeworks I did in AT2 didn't demande this sort of global planning.
-I've never done a project as challenging as this one (I should have chosen something easier). For weeks I didn't have an idea about where to begin (and therefore neither did I know what to ask). I spent a lot of time trying to understand the ILM and the Context-Free Grammar and how to code them. There's no code of ILM or CFG to be found on the Internet that I could understand. And given that I still don't understand how to properly implement CFG in Python, I didn't follow the algorithm sketched in Kirby's paper. Instead, I built the model from my understanding of the ILM and CFG, which is a great exercise.
+I've never done a project as challenging as this one (I should have chosen something easier). For weeks I didn't have an idea about where to begin (and therefore neither did I know what to ask). I spent a lot of time trying to understand the ILM and the Context-Free Grammar and how to code them. There's no code of ILM or CFG to be found on the Internet that I could understand. And given that I still don't understand how to properly implement CFG in Python, I didn't follow the algorithm sketched in Kirby's paper. Instead, I built the model from my understanding of the ILM and CFG while trying to keep the general structure of the program the same as the original one, which is a great exercise.
 
 * If you have any suggestions to improve the class for the future
 In general I liked the format (cours magistral then atêlier).
